@@ -1,4 +1,4 @@
-importScripts("/scram/scramjet.all.js");
+importScripts("scram/scramjet.all.js");
 
 
 
@@ -9,6 +9,7 @@ if (navigator.userAgent.includes("Firefox")) {
   })
 }
 
+const { ScramjetServiceWorker } = $scramjetLoadWorker();
 const scramjet = new ScramjetServiceWorker();
 
 self.addEventListener("install", () => {

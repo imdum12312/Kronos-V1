@@ -65,12 +65,22 @@ async function registerSW() {
 		throw new Error("Your browser doesn't support service workers.");
 	}
 
-	await navigator.serviceWorker.register(stockSW);
+	try {
+		await navigator.serviceWorker.register(stockSW);
+	} catch (error) {
+		console.error('Service Worker registration failed:', error);
+		throw new Error(`Service Worker registration failed: ${error.message}`);
+	}
 }
 
 if (window.self === window.top) {
-	await registerSW();
-	console.log("lethal.js: Service Worker registered");
+	try {
+		await registerSW();
+		console.log("lethal.js: Service Worker registered");
+	} catch (error) {
+		console.error("Failed to register Service Worker:", error);
+		// Don't throw here - allow app to continue even if SW fails
+	}
 }
 
 //////////////////////////////
@@ -79,26 +89,57 @@ if (window.self === window.top) {
 
 /**
  * Creates a valid URL from input or returns a search URL.
+ * Validates and sanitizes input to prevent malicious URLs.
  * @param {string} input - The input string or URL.
  * @param {string} [template="https://search.brave.com/search?q=%s"] - Search URL template.
  * @returns {string} Valid URL string.
+ * @throws {Error} If the URL contains dangerous protocols.
  */
 export function makeURL(input, template = "https://search.brave.com/search?q=%s") {
-	try {
-		return new URL(input).toString();
-	} catch (err) {}
+	// Sanitize input
+	const sanitized = input.trim();
 
-	return template.replace("%s", encodeURIComponent(input));
+	// Blocked protocols for security
+	const blockedProtocols = ['javascript:', 'data:', 'vbscript:', 'file:', 'about:'];
+	const lowerInput = sanitized.toLowerCase();
+
+	for (const protocol of blockedProtocols) {
+		if (lowerInput.startsWith(protocol)) {
+			throw new Error(`Protocol "${protocol}" is not allowed for security reasons`);
+		}
+	}
+
+	try {
+		const url = new URL(sanitized);
+		// Only allow http and https protocols
+		if (!['http:', 'https:', 'ws:', 'wss:'].includes(url.protocol)) {
+			throw new Error(`Protocol "${url.protocol}" is not allowed`);
+		}
+		return url.toString();
+	} catch (err) {
+		// If not a valid URL, treat as search query
+		if (err.message && err.message.includes('not allowed')) {
+			throw err;
+		}
+	}
+
+	return template.replace("%s", encodeURIComponent(sanitized));
 }
 
 /**
  * Updates BareMux connection with current transport and wisp URLs.
  * @returns {Promise<void>}
+ * @throws {Error} If connection setup fails.
  */
 async function updateBareMux() {
 	if (transportURL != null && wispURL != null) {
-		console.log(`lethal.js: Setting BareMux to ${transportURL} and Wisp to ${wispURL}`);
-		await connection.setTransport(transportURL, [{ wisp: wispURL }]);
+		try {
+			console.log(`lethal.js: Setting BareMux to ${transportURL} and Wisp to ${wispURL}`);
+			await connection.setTransport(transportURL, [{ wisp: wispURL }]);
+		} catch (error) {
+			console.error('Failed to update BareMux connection:', error);
+			throw new Error(`BareMux connection failed: ${error.message}`);
+		}
 	}
 }
 
@@ -145,10 +186,19 @@ export function getWisp() {
  * Gets the proxied URL
  * @param {string} input - The input URL or hostname.
  * @returns {Promise<string>}
+ * @throws {Error} If URL encoding fails.
  */
 export async function getProxied(input) {
-	const url = makeURL(input);
-	return scramjet.encodeUrl(url);
+	try {
+		const url = makeURL(input);
+		if (!window.scramjet) {
+			throw new Error('Scramjet not initialized yet. Please wait a moment and try again.');
+		}
+		return scramjet.encodeUrl(url);
+	} catch (error) {
+		console.error('Failed to get proxied URL:', error);
+		throw error;
+	}
 }
 
 /**

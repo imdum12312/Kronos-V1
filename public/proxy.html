@@ -285,18 +285,44 @@
 
       const host = location.host;
 
-      setWisp("wss://wisp.mercurywork.shop/"); // REPLACE WITH YOUR WISP SERVER
+      setWisp("ws://" + location.host); // Use local WISP server
 
       setTransport("epoxy");
 
       const input = document.getElementById("rogoisdabest");
       const frame = document.getElementById("frame");
-      input.addEventListener("keyup", async (e) => {
-        if (e.key === "Enter" || e.keyCode === 13) {
-          const url = await getProxied(makeURL(input.value));
-          document.getElementById("frame").src = url;
-          console.log("Loading URL:", url);
+      const loader = document.getElementById("loader");
+      const tabs = document.getElementById("tabs");
+      const homePage = document.getElementById("homePage");
+      const homeNav = document.getElementById("homeNav");
+
+      async function loadSite(url) {
+        try {
+          loader.style.display = "block";
           frame.style.display = "block";
+          tabs.style.display = "flex";
+          homePage.style.display = "none";
+          homeNav.style.display = "none";
+
+          const proxiedUrl = await getProxied(makeURL(url));
+          frame.src = proxiedUrl;
+          console.log("Loading URL:", proxiedUrl);
+
+          setTimeout(() => loader.style.display = "none", 300);
+        } catch (error) {
+          console.error("Error loading site:", error);
+          loader.style.display = "none";
+          alert("Failed to load the site. Please try again.");
+        }
+      }
+
+      input.addEventListener("keydown", async (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const value = input.value.trim();
+          if (value) {
+            await loadSite(value);
+          }
         }
       });
     </script>

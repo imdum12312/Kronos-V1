@@ -285,7 +285,9 @@
 
       const host = location.host;
 
-      setWisp("ws://" + location.host); // Use local WISP server
+      // Auto-detect protocol (ws for http, wss for https)
+      const wispProtocol = location.protocol === "https:" ? "wss://" : "ws://";
+      setWisp(wispProtocol + location.host);
 
       setTransport("epoxy");
 

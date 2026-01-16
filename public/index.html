@@ -205,7 +205,9 @@ iframe{
 <script type="module">
 import {setTransport,setWisp,makeURL,getProxied} from "./lithium.mjs"
 
-setWisp("ws://" + location.host)
+// Auto-detect protocol (ws for http, wss for https)
+const wispProtocol = location.protocol === "https:" ? "wss://" : "ws://";
+setWisp(wispProtocol + location.host)
 setTransport("epoxy")
 
 const frame=document.getElementById("frame")

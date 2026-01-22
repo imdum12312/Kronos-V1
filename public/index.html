@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clever | Log in</title>
 <link rel="icon" type="image/x-icon" href="https://pbs.twimg.com/profile_images/1676663837423194112/yw0xwYoT_400x400.jpg">
-<script src="./lithium-js/scram/scramjet.all.js"></script>
+<script src="../scram/scramjet.all.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -205,7 +205,10 @@ iframe{
 <script type="module">
 import {setTransport,setWisp,makeURL,getProxied} from "./lithium.mjs"
 
-setWisp("ws://" + location.host)
+const protocol = location.protocol === "https:" ? "wss://" : "ws://";
+const host = location.host;
+const x = `${protocol}${host}/wisp/`;
+setWisp(x)
 setTransport("epoxy")
 
 const frame=document.getElementById("frame")

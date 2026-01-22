@@ -5,292 +5,512 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clever | Log in</title>
 <link rel="icon" type="image/x-icon" href="https://pbs.twimg.com/profile_images/1676663837423194112/yw0xwYoT_400x400.jpg">
-<script src="../scram/scramjet.all.js"></script>
+
+<link rel="icon" type="image/x-icon" href="https://assets.clever.com/launchpad/c64d85202/favicon.ico">
+<script src="https://cdn.tailwindcss.com"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto;
-  background:hsl(240,10%,3.9%);
-  color:white;
-  overflow:hidden;
+@import url('https://fonts.googleapis.com/css2?family=Rationale&family=Special+Gothic+Expanded+One&display=swap');
+
+* {
+    box-sizing: border-box;
 }
 
-/* Particles */
-.star-field{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
-.star{position:absolute;background:white;border-radius:50%;animation:twinkle linear infinite}
-@keyframes twinkle{0%,100%{opacity:0}50%{opacity:1}}
-
-/* Home Nav */
-nav{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:50;
-  padding:1.5rem 2rem;
-}
-.nav-content{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  max-width:1400px;
-  margin:0 auto;
-
-  border-radius:1rem;
-
-  padding:1rem 2rem;
-}
-.nav-left{display:flex;align-items:center;gap:1rem}
-.nav-link{color:hsl(240,5%,75%);text-decoration:none;padding:.5rem 1rem;transition:.2s}
-.nav-link:hover{color:white}
-.planet-icon{
-  width:2rem;height:2rem;
-  background:linear-gradient(135deg,#fff,#bbb);
-  border-radius:50%;
-  box-shadow:0 0 20px rgba(255,255,255,.4);
-}
-.user-avatar{
-  width:2rem;height:2rem;border-radius:50%;
-  background:white;color:black;
-  display:flex;align-items:center;justify-content:center;
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: black;
+    min-height: 100vh;
+    color: white;
+    font-family: 'Rationale', sans-serif;
 }
 
-/* Home */
-main{
-  position:relative;
-  z-index:10;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-  padding:1rem;
-}
-.title-container{text-align:center;margin-bottom:4rem;margin-top:5rem}
-h1{
-  font-size:6rem;font-weight:bold;
-  text-shadow:0 0 40px rgba(255,255,255,.6);
-}
-.subtitle{font-size:1.5rem;color:hsl(240,5%,70%)}
-.search-bar{position:relative;width:100%;max-width:42rem;margin-bottom:3rem}
-.search-input{
-  width:100%;
-  padding:1rem 3rem;
-  border-radius:9999px;
-  background:rgba(24,24,27,.6);
-  backdrop-filter:blur(12px);
-  border:1px solid rgba(63,63,70,.3);
-  color:white;
-  outline:none;
-}
-.search-input:focus{border-color:white}
-.search-icon{
-  position:absolute;
-  left:1.25rem;
-  top:50%;
-  transform:translateY(-50%);
-  opacity:.7;
+#root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
 }
 
-/* Browser UI */
-#tabs{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:100;
-  padding:6px 8px;
-  display:none;
-  gap:6px;
-  background:rgba(24,24,27,.55);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-#tabs button{
-  padding:0.5rem 1rem;
-  background:rgba(255,255,255,0.08);
-  border:none;
-  color:white;
-  border-radius:9999px;
-}
-#tabs button:hover{background:rgba(255,255,255,0.14)}
-#tabs input{
-  flex:1;
-  padding:.6rem 1rem;
-  border-radius:9999px;
-  background:rgba(24,24,27,.7);
-  border:1px solid rgba(63,63,70,.3);
-  color:white;
+#homePage {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    z-index: 10;
+    gap: 20px;
 }
 
-/* Loader */
-.loader{
-  position:fixed;
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  width:80px;height:80px;
-  mask:radial-gradient(#0000 47%,#000 48% 71%,#0000 72%) exclude,
-       conic-gradient(#000 0 0) no-clip;
-  animation:spin 1.5s linear infinite;
-  display:none;
-  z-index:200;
+.main {
+    font-family: 'Special Gothic Expanded One', sans-serif;
+    font-size: 80px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 30px rgba(255,255,255,0.2);
+    letter-spacing: 4px;
+    color: #ffffff;
 }
-.loader:before{
-  content:"";
-  position:absolute;
-  inset:0 35% 70%;
-  border-radius:50%;
-  background:white;
-  filter:blur(12px);
-}
-@keyframes spin{to{rotate:1turn}}
 
-/* Iframe */
-iframe{
-  position:fixed;
-  top:50px;
-  left:0;
-  width:100%;
-  height:calc(100vh - 50px);
-  border:none;
-  display:none;
-  border-radius:12px;
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 400px;
+    max-width: 90%;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
 }
+
+.search-bar.hidden {
+    display: none;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 18px;
+    font-family: 'Rationale', sans-serif;
+}
+
+.search-input::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+
+.search-icon {
+    flex-shrink: 0;
+}
+
+#icons {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    z-index: 20;
+    background: rgba(24, 24, 27, 0.6);
+    padding: 15px 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+#icons img {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 12px;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+#icons img:hover {
+    transform: translateY(-5px) scale(1.1);
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
+}
+
+#settingsMenu {
+    display: none;
+    position: absolute;
+    bottom: 130px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 250px;
+    background: rgba(24, 24, 27, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid #3f3f46;
+    border-radius: 15px;
+    padding: 20px;
+    z-index: 100;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    flex-direction: column;
+    gap: 15px;
+}
+
+#settingsMenu.active {
+    display: flex;
+}
+
+/* --- pls work or im crash out and throw my pc --- */
+#frame {
+    position: fixed;
+    top: 60px; 
+    left: 0;
+    width: 100%;
+    height: calc(100% - 60px); 
+    border: none;
+    z-index: 1;
+}
+
+
+#tabs {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(20, 20, 23, 0.95); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 50; 
+    align-items: center;
+    padding: 0 20px;
+    gap: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+#tabs button {
+    background: transparent;
+    border: none;
+    color: #a1a1aa;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+#tabs button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: scale(1.1);
+}
+
+#searchToolbar {
+    flex-grow: 1;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0 20px;
+    height: 40px;
+    color: white;
+    font-family: 'Rationale', sans-serif;
+    font-size: 18px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+#searchToolbar:focus {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 10px rgba(255,255,255,0.05);
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    color: #d4d4d8;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #3f3f46;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider { background-color: white; }
+input:checked + .slider:before { transform: translateX(20px); background-color: black; }
+
+.loader {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 5px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    z-index: 1000;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
 </style>
 </head>
-
 <body>
 
-<div class="star-field" id="starField"></div>
+<div id="root"></div>
 
-<nav id="homeNav">
-  <div class="nav-content">
-    <div class="nav-left">
-      <div class="planet-icon"></div>
-      <a href="proxy.html" class="nav-link">Home</a>
-      <a href="games.html" class="nav-link">Games</a>
+<div id="homePage">
+    <h1 class="main">KRONOS</h1>
+
+    <div class="search-bar">
+        <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input id="searchHome" type="text" class="search-input" placeholder="Search the web...">
     </div>
-    <div class="user-avatar">👤</div>
-  </div>
-</nav>
+</div>
 
-<main id="homePage">
-  <div class="title-container">
-    <h1>Kronos</h1>
-    <p class="subtitle">Pls no ban🥺</p>
-  </div>
-
-  <div class="search-bar">
-    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24">
-      <circle cx="11" cy="11" r="8"></circle>
-      <path d="m21 21-4.35-4.35"></path>
-    </svg>
-    <input id="searchHome" type="text" class="search-input" placeholder="Search the web...">
-  </div>
-</main>
-
-<!-- Tabs bar -->
 <div id="tabs">
-  <button id="back">←</button>
-  <button id="forward">→</button>
-  <button id="refresh">↻</button>
-  <input id="searchToolbar" placeholder="Search or enter URL">
-  <button id="full">⛶</button>
+    <button id="back" title="Back">←</button>
+    <button id="forward" title="Forward">→</button>
+    <button id="refresh" title="Reload">↻</button>
+    <input id="searchToolbar" placeholder="Search or enter URL">
+    <button id="full" title="Fullscreen">⛶</button>
 </div>
 
 <div class="loader" id="loader"></div>
+  
+<iframe id="frame" style="display:none;"></iframe>
 
-<iframe id="frame"></iframe>
+<div id="settingsMenu">
+    <div class="setting-item">
+        <span>Snow & Stars</span>
+        <label class="switch">
+            <input type="checkbox" id="snowToggle" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+</div>
 
-<script type="module">
-import {setTransport,setWisp,makeURL,getProxied} from "./lithium.mjs"
+<div id="icons">
+    <img src="https://codehs.com/uploads/630caf006c67c8de85799a98597a343d" width="50" height="50" onclick="window.location.href='index.html';">
+    <img src="https://codehs.com/uploads/fa8637bc8b24ee5779f577ec56d98e1f" width="50" height="50" onclick="window.location.href='games.html';">
+    <img src="https://codehs.com/uploads/ff3b0833ce880d64907566da67d26e0f" width="50" height="50" id="btnSettings">
+    <img id="discordBtn" src="https://codehs.com/uploads/f18c1edbea0855d1ab975d9d4a6c153b" width="45" height="45" style="cursor: pointer;">
 
-const protocol = location.protocol === "https:" ? "wss://" : "ws://";
-const host = location.host;
-const x = `${protocol}${host}/wisp/`;
-setWisp(x)
-setTransport("epoxy")
 
-const frame=document.getElementById("frame")
-const loader=document.getElementById("loader")
-const tabs=document.getElementById("tabs")
-const searchToolbar=document.getElementById("searchToolbar")
-const searchHome=document.getElementById("searchHome")
-const homePage=document.getElementById("homePage")
-const homeNav=document.getElementById("homeNav")
-const back=document.getElementById("back")
-const forward=document.getElementById("forward")
-const refresh=document.getElementById("refresh")
-const full=document.getElementById("full")
+</div>
 
-let currentURL=""
+  <script type="module">
+  import { setTransport, setWisp, makeURL, getProxied } from "./lithium.mjs";
 
-function isURL(str){
-  return str.startsWith("http") || str.includes(".")
-}
+  const protocol = location.protocol === "https:" ? "wss://" : "ws://";
+  const host = location.host;
+  setWisp(`${protocol}${host}/wisp/`);
+  setTransport("epoxy");
 
-async function loadSite(url){
-  loader.style.display="block"
-  frame.style.display="block"
-  tabs.style.display="flex"
-  homePage.style.display="none"
-  homeNav.style.display="none"
+  const frame = document.getElementById("frame");
+  const loader = document.getElementById("loader");
+  const tabs = document.getElementById("tabs");
+  const searchToolbar = document.getElementById("searchToolbar");
+  const searchHome = document.getElementById("searchHome");
+  const homePage = document.getElementById("homePage");
+  const homeSearchBar = document.querySelector("#homePage .search-bar");
+  const back = document.getElementById("back");
+  const forward = document.getElementById("forward");
+  const refresh = document.getElementById("refresh");
+  const full = document.getElementById("full");
 
-  let final=await getProxied(makeURL(url))
-  currentURL=url
-  searchToolbar.value=url
-  frame.src=final
+  let historyStack = [];
+  let historyIndex = -1;
 
-  setTimeout(()=>loader.style.display="none",300)
-}
 
-/* LOAD URL FROM ?url=... */
-const params=new URLSearchParams(window.location.search)
-const startURL=params.get("url")
-if(startURL){
-  loadSite(startURL)
-}
+      const discordBtn = document.getElementById('discordBtn');
 
-/* HOME PAGE SEARCH */
-searchHome.addEventListener("keydown",e=>{
-  if(e.key==="Enter"){
-    let v=searchHome.value.trim()
-    if(!isURL(v)) v="https://duckduckgo.com/?q="+encodeURIComponent(v)
-    else if(!v.startsWith("http")) v="https://"+v
-    loadSite(v)
+      discordBtn.addEventListener('click', () => {
+          searchHome.value = "https://discord.gg/7szgQn6EHP";
+          const enterEvent = new KeyboardEvent('keydown', {
+              key: 'Enter',
+              bubbles: true
+          });
+          searchHome.dispatchEvent(enterEvent);
+      });
+
+
+  function isURL(str){
+      return str.startsWith("http") || str.includes(".");
   }
-})
 
-/* TOP BAR SEARCH */
-searchToolbar.addEventListener("keydown",e=>{
-  if(e.key==="Enter"){
-    let v=searchToolbar.value.trim()
-    if(!isURL(v)) v="https://duckduckgo.com/?q="+encodeURIComponent(v)
-    else if(!v.startsWith("http")) v="https://"+v
-    loadSite(v)
+  window.loadSite = async function(url, addHistory = true){
+      loader.style.display="block";
+      frame.style.display="block";
+      tabs.style.display="flex"; 
+      homePage.style.display="none";
+
+      let final = await getProxied(makeURL(url));
+      frame.src = final;
+      searchToolbar.value = url;
+
+      if(addHistory){
+          historyStack = historyStack.slice(0, historyIndex + 1);
+          historyStack.push(url);
+          historyIndex++;
+      }
+
+      setTimeout(()=>loader.style.display="none",300);
   }
-})
 
-back.onclick=()=>frame.contentWindow.history.back()
-forward.onclick=()=>frame.contentWindow.history.forward()
-refresh.onclick=()=>loadSite(currentURL)
-full.onclick=()=>!document.fullscreenElement ? frame.requestFullscreen() : document.exitFullscreen()
-</script>
+  searchHome.addEventListener("keydown", e => {
+      if(e.key === "Enter"){
+          let v = searchHome.value.trim();
+          if(!isURL(v)) v = "https://duckduckgo.com/?q="+encodeURIComponent(v);
+          else if(!v.startsWith("http")) v = "https://"+v;
+          window.loadSite(v);
+          homeSearchBar.classList.add("hidden");
+      }
+  });
+
+  searchToolbar.addEventListener("keydown", e => {
+      if(e.key === "Enter"){
+          let v = searchToolbar.value.trim();
+          if(!isURL(v)) v = "https://duckduckgo.com/?q="+encodeURIComponent(v);
+          else if(!v.startsWith("http")) v = "https://"+v;
+          window.loadSite(v);
+      }
+  });
+
+  back.onclick = () => {
+      if(historyIndex > 0){
+          historyIndex--;
+          window.loadSite(historyStack[historyIndex], false);
+      }
+  };
+
+  forward.onclick = () => {
+      if(historyIndex < historyStack.length - 1){
+          historyIndex++;
+          window.loadSite(historyStack[historyIndex], false);
+      }
+  };
+
+  refresh.onclick = () => {
+      if(historyIndex >= 0){
+          window.loadSite(historyStack[historyIndex], false);
+      }
+  };
+
+  full.onclick = () => !document.fullscreenElement ? frame.requestFullscreen() : document.exitFullscreen();
+
+  const params = new URLSearchParams(window.location.search);
+  const startURL = params.get("url");
+  if(startURL){
+      window.loadSite(startURL);
+  }
+  </script>
+
 
 <script>
-const starField=document.getElementById("starField")
-for(let i=0;i<100;i++){
-  const s=document.createElement("div")
-  s.className="star"
-  const size=Math.random()*2+1
-  s.style.width=size+"px"
-  s.style.height=size+"px"
-  s.style.left=Math.random()*100+"%"
-  s.style.top=Math.random()*100+"%"
-  s.style.animationDuration=(Math.random()*3+2)+"s"
-  s.style.animationDelay=(Math.random()*5)+"s"
-  starField.appendChild(s)
+const btnSettings = document.getElementById("btnSettings");
+const settingsMenu = document.getElementById("settingsMenu");
+const snowToggle = document.getElementById("snowToggle");
+const rootDiv = document.getElementById("root");
+
+btnSettings.onclick = () => settingsMenu.classList.toggle("active");
+snowToggle.onchange = e => rootDiv.style.opacity = e.target.checked ? "1" : "0";
+</script>
+
+<script type="text/babel">
+const { useEffect, useRef } = React;
+
+function App() {
+    const canvasRef = useRef(null);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const stars = Array.from({length: 150}, () => ({
+            x: Math.random()*canvas.width,
+            y: Math.random()*canvas.height,
+            r: Math.random()*1.5 + 0.5,
+            opacity: Math.random()*0.8 + 0.2,
+            delta: Math.random()*0.02 + 0.005
+        }));
+
+        const snow = Array.from({length: 400}, () => ({
+            x: Math.random()*canvas.width,
+            y: Math.random()*canvas.height,
+            r: Math.random()*2 + 0.5,
+            s: Math.random()+0.5
+        }));
+
+        const draw = () => {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+
+            stars.forEach(s => {
+                s.opacity += s.delta;
+                if(s.opacity > 1 || s.opacity < 0.2) s.delta *= -1;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(255,255,255,${s.opacity})`;
+                ctx.fill();
+            });
+
+            snow.forEach(f => {
+                f.y += f.s;
+                if(f.y > canvas.height) f.y = -10;
+                ctx.beginPath();
+                ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
+                ctx.fillStyle = "rgba(255,255,255,0.6)";
+                ctx.fill();
+            });
+
+            requestAnimationFrame(draw);
+        };
+        draw();
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    }, []);
+
+    return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full pointer-events-none" />;
 }
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 </script>
 
 </body>

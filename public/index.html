@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clever | Log in</title>
-<link rel="icon" type="image/x-icon" href="https://pbs.twimg.com/profile_images/1676663837423194112/yw0xwYoT_400x400.jpg">
 
 <link rel="icon" type="image/x-icon" href="https://assets.clever.com/launchpad/c64d85202/favicon.ico">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -15,51 +14,40 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rationale&family=Special+Gothic+Expanded+One&display=swap');
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box }
 
 body {
     margin: 0;
-    overflow: hidden;
-    background-color: black;
-    min-height: 100vh;
-    color: white;
+    background: #000;
+    color: #fff;
     font-family: 'Rationale', sans-serif;
+    overflow: hidden;
 }
 
 #root {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
+    inset: 0;
     pointer-events: none;
-    transition: opacity 0.5s ease;
+    transition: opacity .4s;
 }
 
 #homePage {
     position: absolute;
     top: 45%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%,-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 100%;
+    gap: 18px;
     z-index: 10;
-    gap: 20px;
 }
 
 .main {
     font-family: 'Special Gothic Expanded One', sans-serif;
-    font-size: 80px;
-    margin-bottom: 30px;
-    text-shadow: 0 0 30px rgba(255,255,255,0.2);
+    font-size: 78px;
     letter-spacing: 4px;
-    color: #ffffff;
+    text-shadow: 0 0 25px rgba(255,255,255,.2);
 }
 
 .search-bar {
@@ -68,115 +56,34 @@ body {
     gap: 12px;
     width: 400px;
     max-width: 90%;
-    background: rgba(255,255,255,0.1);
-    padding: 10px 15px;
+    background: rgba(255,255,255,.1);
+    padding: 10px 14px;
     border-radius: 12px;
-    box-shadow: 0 0 15px rgba(255,255,255,0.1);
-    transition: all 0.3s ease;
 }
 
-.search-bar.hidden {
-    display: none;
-}
+.search-bar.hidden { display: none }
 
 .search-input {
     flex: 1;
+    background: transparent;
     border: none;
     outline: none;
-    background: transparent;
-    color: white;
+    color: #fff;
     font-size: 18px;
-    font-family: 'Rationale', sans-serif;
 }
-
-.search-input::placeholder {
-    color: rgba(255,255,255,0.6);
-}
-
-.search-icon {
-    flex-shrink: 0;
-}
-
-#icons {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    z-index: 20;
-    background: rgba(24, 24, 27, 0.6);
-    padding: 15px 30px;
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-
-#icons img {
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-radius: 12px;
-    object-fit: cover;
-    opacity: 0.8;
-}
-
-#icons img:hover {
-    transform: translateY(-5px) scale(1.1);
-    opacity: 1;
-    filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
-}
-
-#settingsMenu {
-    display: none;
-    position: absolute;
-    bottom: 130px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 250px;
-    background: rgba(24, 24, 27, 0.95);
-    backdrop-filter: blur(15px);
-    border: 1px solid #3f3f46;
-    border-radius: 15px;
-    padding: 20px;
-    z-index: 100;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    flex-direction: column;
-    gap: 15px;
-}
-
-#settingsMenu.active {
-    display: flex;
-}
-
-/* --- pls work or im crash out and throw my pc --- */
-#frame {
-    position: fixed;
-    top: 60px; 
-    left: 0;
-    width: 100%;
-    height: calc(100% - 60px); 
-    border: none;
-    z-index: 1;
-}
-
 
 #tabs {
-    display: none; 
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 60px;
-    background: rgba(20, 20, 23, 0.95); 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 50; 
+    background: rgba(20,20,23,.95);
     align-items: center;
-    padding: 0 20px;
     gap: 10px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    padding: 0 18px;
+    z-index: 50;
 }
 
 #tabs button {
@@ -185,332 +92,266 @@ body {
     color: #a1a1aa;
     font-size: 22px;
     cursor: pointer;
-    padding: 8px;
-    border-radius: 8px;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 40px;
     height: 40px;
-}
-
-#tabs button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    transform: scale(1.1);
 }
 
 #searchToolbar {
-    flex-grow: 1;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 0 20px;
+    flex: 1;
     height: 40px;
-    color: white;
-    font-family: 'Rationale', sans-serif;
-    font-size: 18px;
+    background: rgba(0,0,0,.5);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.1);
+    padding: 0 16px;
+    color: #fff;
+    font-size: 17px;
     outline: none;
-    transition: all 0.2s;
 }
 
-#searchToolbar:focus {
-    border-color: rgba(255, 255, 255, 0.3);
-    background: rgba(0, 0, 0, 0.8);
-    box-shadow: 0 0 10px rgba(255,255,255,0.05);
+#frame {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    border: none;
+    display: none;
 }
 
-.setting-item {
+#icons {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 25px;
+    padding: 15px 28px;
+    background: rgba(24,24,27,.6);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    z-index: 20;
+}
+
+#icons img {
+    cursor: pointer;
+    border-radius: 12px;
+    transition: .2s;
+    opacity: .85;
+}
+
+#icons img:hover {
+    transform: translateY(-4px) scale(1.08);
+    opacity: 1;
+}
+
+#settingsMenu {
+    display: none;
+    position: absolute;
+    bottom: 130px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 240px;
+    background: rgba(24,24,27,.95);
+    padding: 18px;
+    border-radius: 15px;
+    z-index: 100;
+}
+
+#settingsMenu.active {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    font-size: 18px;
-    color: #d4d4d8;
 }
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-}
-
-.switch input { opacity: 0; width: 0; height: 0; }
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #3f3f46;
-    transition: .4s;
-    border-radius: 34px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-}
-
-input:checked + .slider { background-color: white; }
-input:checked + .slider:before { transform: translateX(20px); background-color: black; }
 
 .loader {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    border: 5px solid #FFF;
+    width: 48px;
+    height: 48px;
+    transform: translate(-50%,-50%);
+    border: 5px solid #fff;
     border-bottom-color: transparent;
     border-radius: 50%;
+    animation: spin 1s linear infinite;
     z-index: 1000;
-    animation: rotation 1s linear infinite;
 }
 
-@keyframes rotation {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
+@keyframes spin {
+    to { transform: translate(-50%,-50%) rotate(360deg) }
 }
-
 </style>
 </head>
+
 <body>
 
 <div id="root"></div>
 
 <div id="homePage">
     <h1 class="main">KRONOS</h1>
-
     <div class="search-bar">
-        <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2">
             <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="21" y1="21" x2="16.6" y2="16.6"></line>
         </svg>
-        <input id="searchHome" type="text" class="search-input" placeholder="Search the web...">
+        <input id="searchHome" class="search-input" placeholder="Search the web...">
     </div>
 </div>
 
 <div id="tabs">
-    <button id="back" title="Back">←</button>
-    <button id="forward" title="Forward">→</button>
-    <button id="refresh" title="Reload">↻</button>
+    <button id="back">←</button>
+    <button id="forward">→</button>
+    <button id="refresh">↻</button>
     <input id="searchToolbar" placeholder="Search or enter URL">
-    <button id="full" title="Fullscreen">⛶</button>
+    <button id="full">⛶</button>
 </div>
 
 <div class="loader" id="loader"></div>
-  
-<iframe id="frame" style="display:none;"></iframe>
+<iframe id="frame"></iframe>
 
 <div id="settingsMenu">
-    <div class="setting-item">
-        <span>Snow & Stars</span>
-        <label class="switch">
-            <input type="checkbox" id="snowToggle" checked>
-            <span class="slider"></span>
-        </label>
-    </div>
+    <span>Snow & Stars</span>
+    <input type="checkbox" id="snowToggle" checked>
 </div>
 
 <div id="icons">
-    <img src="https://codehs.com/uploads/630caf006c67c8de85799a98597a343d" width="50" height="50" onclick="window.location.href='index.html';">
-    <img src="https://codehs.com/uploads/fa8637bc8b24ee5779f577ec56d98e1f" width="50" height="50" onclick="window.location.href='games.html';">
-    <img src="https://codehs.com/uploads/ff3b0833ce880d64907566da67d26e0f" width="50" height="50" id="btnSettings">
-    <img id="discordBtn" src="https://codehs.com/uploads/f18c1edbea0855d1ab975d9d4a6c153b" width="45" height="45" style="cursor: pointer;">
-
-
+    <img src="https://codehs.com/uploads/630caf006c67c8de85799a98597a343d" width="50">
+    <img src="https://codehs.com/uploads/fa8637bc8b24ee5779f577ec56d98e1f" width="50">
+    <img src="https://codehs.com/uploads/ff3b0833ce880d64907566da67d26e0f" width="50" id="btnSettings">
+    <img src="https://codehs.com/uploads/f18c1edbea0855d1ab975d9d4a6c153b" width="45" id="discordBtn">
 </div>
 
-  <script type="module">
-  import { setTransport, setWisp, makeURL, getProxied } from "./lithium.mjs";
+<script type="module">
+import { setWisp, setTransport, makeURL, getProxied } from "./lithium.mjs"
 
-  const protocol = location.protocol === "https:" ? "wss://" : "ws://";
-  const host = location.host;
-  setWisp(`${protocol}${host}/wisp/`);
-  setTransport("epoxy");
+const proto = location.protocol === "https:" ? "wss://" : "ws://"
+setWisp(proto + location.host + "/wisp/")
+setTransport("epoxy")
 
-  const frame = document.getElementById("frame");
-  const loader = document.getElementById("loader");
-  const tabs = document.getElementById("tabs");
-  const searchToolbar = document.getElementById("searchToolbar");
-  const searchHome = document.getElementById("searchHome");
-  const homePage = document.getElementById("homePage");
-  const homeSearchBar = document.querySelector("#homePage .search-bar");
-  const back = document.getElementById("back");
-  const forward = document.getElementById("forward");
-  const refresh = document.getElementById("refresh");
-  const full = document.getElementById("full");
+const frame = document.getElementById("frame")
+const loader = document.getElementById("loader")
+const tabs = document.getElementById("tabs")
+const home = document.getElementById("homePage")
+const searchHome = document.getElementById("searchHome")
+const searchBar = document.querySelector(".search-bar")
+const searchTop = document.getElementById("searchToolbar")
 
-  let historyStack = [];
-  let historyIndex = -1;
+let stack = []
+let index = -1
 
+const isURL = v => v.startsWith("http") || v.includes(".")
 
-      const discordBtn = document.getElementById('discordBtn');
+async function load(url, hist = true) {
+    loader.style.display = "block"
+    frame.style.display = "block"
+    tabs.style.display = "flex"
+    home.style.display = "none"
 
-      discordBtn.addEventListener('click', () => {
-          searchHome.value = "https://discord.gg/7szgQn6EHP";
-          const enterEvent = new KeyboardEvent('keydown', {
-              key: 'Enter',
-              bubbles: true
-          });
-          searchHome.dispatchEvent(enterEvent);
-      });
+    frame.src = await getProxied(makeURL(url))
+    searchTop.value = url
 
+    if (hist) {
+        stack = stack.slice(0, ++index)
+        stack.push(url)
+    }
 
-  function isURL(str){
-      return str.startsWith("http") || str.includes(".");
-  }
+    setTimeout(() => loader.style.display = "none", 250)
+}
 
-  window.loadSite = async function(url, addHistory = true){
-      loader.style.display="block";
-      frame.style.display="block";
-      tabs.style.display="flex"; 
-      homePage.style.display="none";
+searchHome.onkeydown = e => {
+    if (e.key !== "Enter") return
+    let v = searchHome.value.trim()
+    if (!isURL(v)) v = "https://duckduckgo.com/?q=" + encodeURIComponent(v)
+    else if (!v.startsWith("http")) v = "https://" + v
+    searchBar.classList.add("hidden")
+    load(v)
+}
 
-      let final = await getProxied(makeURL(url));
-      frame.src = final;
-      searchToolbar.value = url;
+searchTop.onkeydown = e => {
+    if (e.key !== "Enter") return
+    let v = searchTop.value.trim()
+    if (!isURL(v)) v = "https://duckduckgo.com/?q=" + encodeURIComponent(v)
+    else if (!v.startsWith("http")) v = "https://" + v
+    load(v)
+}
 
-      if(addHistory){
-          historyStack = historyStack.slice(0, historyIndex + 1);
-          historyStack.push(url);
-          historyIndex++;
-      }
+back.onclick = () => index > 0 && load(stack[--index], false)
+forward.onclick = () => index < stack.length - 1 && load(stack[++index], false)
+refresh.onclick = () => index >= 0 && load(stack[index], false)
+full.onclick = () => document.fullscreenElement ? document.exitFullscreen() : frame.requestFullscreen()
 
-      setTimeout(()=>loader.style.display="none",300);
-  }
-
-  searchHome.addEventListener("keydown", e => {
-      if(e.key === "Enter"){
-          let v = searchHome.value.trim();
-          if(!isURL(v)) v = "https://duckduckgo.com/?q="+encodeURIComponent(v);
-          else if(!v.startsWith("http")) v = "https://"+v;
-          window.loadSite(v);
-          homeSearchBar.classList.add("hidden");
-      }
-  });
-
-  searchToolbar.addEventListener("keydown", e => {
-      if(e.key === "Enter"){
-          let v = searchToolbar.value.trim();
-          if(!isURL(v)) v = "https://duckduckgo.com/?q="+encodeURIComponent(v);
-          else if(!v.startsWith("http")) v = "https://"+v;
-          window.loadSite(v);
-      }
-  });
-
-  back.onclick = () => {
-      if(historyIndex > 0){
-          historyIndex--;
-          window.loadSite(historyStack[historyIndex], false);
-      }
-  };
-
-  forward.onclick = () => {
-      if(historyIndex < historyStack.length - 1){
-          historyIndex++;
-          window.loadSite(historyStack[historyIndex], false);
-      }
-  };
-
-  refresh.onclick = () => {
-      if(historyIndex >= 0){
-          window.loadSite(historyStack[historyIndex], false);
-      }
-  };
-
-  full.onclick = () => !document.fullscreenElement ? frame.requestFullscreen() : document.exitFullscreen();
-
-  const params = new URLSearchParams(window.location.search);
-  const startURL = params.get("url");
-  if(startURL){
-      window.loadSite(startURL);
-  }
-  </script>
-
-
-<script>
-const btnSettings = document.getElementById("btnSettings");
-const settingsMenu = document.getElementById("settingsMenu");
-const snowToggle = document.getElementById("snowToggle");
-const rootDiv = document.getElementById("root");
-
-btnSettings.onclick = () => settingsMenu.classList.toggle("active");
-snowToggle.onchange = e => rootDiv.style.opacity = e.target.checked ? "1" : "0";
+discordBtn.onclick = () => {
+    searchHome.value = "https://discord.gg/7szgQn6EHP"
+    searchHome.dispatchEvent(new KeyboardEvent("keydown",{key:"Enter"}))
+}
 </script>
 
 <script type="text/babel">
-const { useEffect, useRef } = React;
+const { useEffect, useRef } = React
 
-function App() {
-    const canvasRef = useRef(null);
+function App(){
+    const ref = useRef(null)
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const c = ref.current
+        const x = c.getContext("2d")
 
-        const stars = Array.from({length: 150}, () => ({
-            x: Math.random()*canvas.width,
-            y: Math.random()*canvas.height,
-            r: Math.random()*1.5 + 0.5,
-            opacity: Math.random()*0.8 + 0.2,
-            delta: Math.random()*0.02 + 0.005
-        }));
+        const resize = () => {
+            c.width = innerWidth
+            c.height = innerHeight
+        }
+        resize()
+        window.addEventListener("resize", resize)
 
-        const snow = Array.from({length: 400}, () => ({
-            x: Math.random()*canvas.width,
-            y: Math.random()*canvas.height,
-            r: Math.random()*2 + 0.5,
-            s: Math.random()+0.5
-        }));
+        const stars = Array.from({length:150},() => ({
+            x:Math.random()*innerWidth,
+            y:Math.random()*innerHeight,
+            r:Math.random()*1.6+.4,
+            o:Math.random(),
+            d:(Math.random()-.5)*.02
+        }))
+
+        const snow = Array.from({length:380},() => ({
+            x:Math.random()*innerWidth,
+            y:Math.random()*innerHeight,
+            s:Math.random()+.4
+        }))
 
         const draw = () => {
-            ctx.clearRect(0,0,canvas.width,canvas.height);
+            x.clearRect(0,0,c.width,c.height)
 
-            stars.forEach(s => {
-                s.opacity += s.delta;
-                if(s.opacity > 1 || s.opacity < 0.2) s.delta *= -1;
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-                ctx.fillStyle = `rgba(255,255,255,${s.opacity})`;
-                ctx.fill();
-            });
+            stars.forEach(s=>{
+                s.o+=s.d
+                if(s.o<.2||s.o>1)s.d*=-1
+                x.beginPath()
+                x.arc(s.x,s.y,s.r,0,Math.PI*2)
+                x.fillStyle=`rgba(255,255,255,${s.o})`
+                x.fill()
+            })
 
-            snow.forEach(f => {
-                f.y += f.s;
-                if(f.y > canvas.height) f.y = -10;
-                ctx.beginPath();
-                ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
-                ctx.fillStyle = "rgba(255,255,255,0.6)";
-                ctx.fill();
-            });
+            snow.forEach(f=>{
+                f.y+=f.s
+                if(f.y>c.height)f.y=-5
+                x.beginPath()
+                x.arc(f.x,f.y,2,0,Math.PI*2)
+                x.fillStyle="rgba(255,255,255,.6)"
+                x.fill()
+            })
 
-            requestAnimationFrame(draw);
-        };
-        draw();
+            requestAnimationFrame(draw)
+        }
+        draw()
+    },[])
 
-        window.addEventListener("resize", () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    }, []);
-
-    return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full pointer-events-none" />;
+    return <canvas ref={ref} className="fixed inset-0"/>
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
+</script>
+
+<script>
+btnSettings.onclick = () => settingsMenu.classList.toggle("active")
+snowToggle.onchange = e => root.style.opacity = e.target.checked ? "1" : "0"
 </script>
 
 </body>

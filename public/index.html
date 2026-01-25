@@ -182,7 +182,16 @@ body {
 }
 </style>
 </head>
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TWLXPZG92"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-2TWLXPZG92');
+</script>
 <body>
 
 <div id="root"></div>
@@ -352,15 +361,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
 <script>
 btnSettings.onclick = () => settingsMenu.classList.toggle("active")
 snowToggle.onchange = e => root.style.opacity = e.target.checked ? "1" : "0"
-</script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TWLXPZG92"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-2TWLXPZG92');
-</script>
 </body>
 </html>

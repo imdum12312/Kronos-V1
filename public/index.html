@@ -182,18 +182,8 @@ body {
 }
 </style>
 </head>
-</script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TWLXPZG92"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-2TWLXPZG92');
-</script>
 <body>
-
 <div id="root"></div>
 
 <div id="homePage">
@@ -245,6 +235,12 @@ const searchHome = document.getElementById("searchHome")
 const searchBar = document.querySelector(".search-bar")
 const searchTop = document.getElementById("searchToolbar")
 
+const btnSettings = document.getElementById("btnSettings")
+const settingsMenu = document.getElementById("settingsMenu")
+const discordBtn = document.getElementById("discordBtn")
+const snowToggle = document.getElementById("snowToggle")
+const root = document.getElementById("root")
+
 let stack = []
 let index = -1
 
@@ -293,6 +289,9 @@ discordBtn.onclick = () => {
     searchHome.value = "https://discord.gg/7szgQn6EHP"
     searchHome.dispatchEvent(new KeyboardEvent("keydown",{key:"Enter"}))
 }
+
+btnSettings.onclick = () => settingsMenu.classList.toggle("active")
+snowToggle.onchange = e => root.style.opacity = e.target.checked ? "1" : "0"
 </script>
 
 <script type="text/babel">
@@ -357,10 +356,5 @@ function App(){
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
 </script>
-
-<script>
-btnSettings.onclick = () => settingsMenu.classList.toggle("active")
-snowToggle.onchange = e => root.style.opacity = e.target.checked ? "1" : "0"
-
 </body>
 </html>
